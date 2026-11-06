@@ -77,12 +77,16 @@ const swaggerOptions: swaggerJSDoc.Options = {
     ],
     servers: [
       {
+        url: "/api",
+        description: "Current Host API",
+      },
+      {
         url: `http://localhost:${port}/api`,
-        description: "Local API Prefix",
+        description: "Localhost",
       },
     ],
   },
-  apis: ["./src/presentation/routes/*.ts"],
+  apis: ["./src/presentation/routes/*.ts", "./dist/presentation/routes/*.js"],
 };
 
 export const swaggerSpec = swaggerJSDoc(swaggerOptions);

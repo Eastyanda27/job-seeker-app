@@ -15,6 +15,10 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 // Base health check
+app.get("/", (req, res) => {
+  res.json({ message: "IndoKerja Job Seeker API is running", health: "/health", docs: "/api-docs" });
+});
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date() });
 });
