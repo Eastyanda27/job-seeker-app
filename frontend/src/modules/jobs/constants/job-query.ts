@@ -1,0 +1,1 @@
+export const jobKeys = { all: ["jobs"] as const, lists: () => [...jobKeys.all, "list"] as const, list: (filters: unknown) => [...jobKeys.lists(), filters] as const, detail: (id: string) => [...jobKeys.all, "detail", id] as const, company: () => [...jobKeys.all, "company"] as const };

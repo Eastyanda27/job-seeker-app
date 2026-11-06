@@ -1,0 +1,11 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { applyJob, getApplicationHistory, getCompanyApplicants, getJobApplicants, getMyApplications, updateApplicationStatus } from "../api/application-api";
+import { applicationKeys } from "../constants/application-query";
+import { jobKeys } from "@/modules/jobs/constants/job-query";
+import type { ApplyJobInput, UpdateApplicationStatusInput } from "../types/application-types";
+export const useMyApplications = () => useQuery({ queryKey: applicationKeys.mine(), queryFn: getMyApplications });
+export const useCompanyApplicants = (jobId?: string) => useQuery({ queryKey: applicationKeys.applicants(jobId), queryFn: () => getCompanyApplicants(jobId) });
+export const useJobApplicants = (jobId?: string) => useQuery({ queryKey: applicationKeys.applicants(jobId), queryFn: () => getJobApplicants(jobId!), enabled: Boolean(jobId) });
+export const useApplicationHistory = (id?: string) => useQuery({ queryKey: applicationKeys.history(id || ""), queryFn: () => getApplicationHistory(id!), enabled: Boolean(id) });
+export const useApplyJob = () => { const qc = useQueryClient(); return useMutation({ mutationFn: (payload: ApplyJobInput) => applyJob(payload), onSuccess: () => { qc.invalidateQueries({ queryKey: applicationKeys.all }); qc.invalidateQueries({ queryKey: jobKeys.all }); } }); };
+export const useUpdateApplicationStatus = () => { const qc = useQueryClient(); return useMutation({ mutationFn: (payload: UpdateApplicationStatusInput & { id: string }) => updateApplicationStatus(payload), onSuccess: () => qc.invalidateQueries({ queryKey: applicationKeys.all }) }); };

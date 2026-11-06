@@ -1,0 +1,1 @@
+export const applicationKeys = { all: ["applications"] as const, mine: () => [...applicationKeys.all, "mine"] as const, applicants: (jobId?: string) => [...applicationKeys.all, "applicants", jobId || "all"] as const, history: (id: string) => [...applicationKeys.all, "history", id] as const };
